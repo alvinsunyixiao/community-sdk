@@ -10,13 +10,13 @@ target_include_directories(${SYX_FACE_EXE}
     ${COMMUNITY_SDK_INCLUDE_DIR})
 if (WIN32)
     if(MSVC)
-        set_target_properties(${FACIAL_EXPRESSION_EXE} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}/$<CONFIG>)
+        set_target_properties(${SYX_FACE_EXE} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}/$<CONFIG>)
     else()
-        set_target_properties(${FACIAL_EXPRESSION_EXE} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH})
+        set_target_properties(${SYX_FACE_EXE} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${EXECUTABLE_OUTPUT_PATH})
     endif()
-    add_custom_command(TARGET ${FACIAL_EXPRESSION_EXE} POST_BUILD
+    add_custom_command(TARGET ${SYX_FACE_EXE} POST_BUILD
               COMMAND ${CMAKE_COMMAND} -E copy_if_different
-              ${SDK_DLLS} $<TARGET_FILE_DIR:${FACIAL_EXPRESSION_EXE}>)
+              ${SDK_DLLS} $<TARGET_FILE_DIR:${SYX_FACE_EXE}>)
 endif()
 
 if (APPLE)
