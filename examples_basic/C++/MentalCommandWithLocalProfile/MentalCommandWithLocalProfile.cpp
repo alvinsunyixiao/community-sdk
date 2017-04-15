@@ -33,13 +33,13 @@ int _kbhit (void)
 {
     struct timeval tv;
     fd_set rdfs;
-    
+
     tv.tv_sec = 0;
     tv.tv_usec = 0;
-    
+
     FD_ZERO(&rdfs);
     FD_SET (STDIN_FILENO, &rdfs);
-    
+
     select(STDIN_FILENO+1, &rdfs, NULL, NULL, &tv);
     return FD_ISSET(STDIN_FILENO, &rdfs);
 }
@@ -50,19 +50,19 @@ int _kbhit(void)
 {
     struct timeval tv;
     fd_set read_fd;
-    
+
     tv.tv_sec=0;
     tv.tv_usec=0;
-    
+
     FD_ZERO(&read_fd);
     FD_SET(0,&read_fd);
-    
+
     if(select(1, &read_fd,NULL, NULL, &tv) == -1)
         return 0;
-    
+
     if(FD_ISSET(0,&read_fd))
         return 1;
-    
+
     return 0;
 }
 #endif
@@ -81,8 +81,14 @@ void setActiveActions(int userID);
 void setMentalCommandActions(int, IEE_MentalCommandAction_t);
 int actionTraining;
 
+
+#if __linux__ || __APPLE__
+std::string profileNameForLoading = "/tmp/161.emu";
+std::string profileNameForSaving = "/tmp/161.emu";
+#else
 std::string profileNameForLoading = "C:/1/161.emu";
 std::string profileNameForSaving = "C:/1/161.emu";
+#endif
 
 int main(int argc, char** argv) {
 
@@ -109,7 +115,7 @@ int main(int argc, char** argv) {
 	if (IEE_EngineConnect() != EDK_OK) {
 		throw std::runtime_error("Emotiv Engine start up failed.");
 	}
-		
+
 	while (!_kbhit()) {
 		state = IEE_EngineGetNextEvent(eEvent);
 
@@ -130,20 +136,20 @@ int main(int argc, char** argv) {
                         showTrainedActions(userID);
 					}
 					if (option == 2)
-					{	
+					{
                         setActiveActions(userID);
                         setMentalCommandActions(userID, MC_NEUTRAL);
 					}
-						
+
 					break;
 				}
-					
+
 				case IEE_UserRemoved:
 				{
                     std::cout << std::endl << "User " << userID << " has been removed." << std::endl;
 					break;
 				}
-					
+
 				case IEE_EmoStateUpdated:
 				{
 					IEE_EmoEngineEventGetEmoState(eEvent, eState);
@@ -174,7 +180,7 @@ int main(int argc, char** argv) {
 }
 
 void loadProfile(int userID)
-{			
+{
     if (IEE_LoadUserProfile(userID, profileNameForLoading.c_str()) == EDK_OK)
         std::cout << "Load Profile : done" << std::endl;
 	else
@@ -182,7 +188,7 @@ void loadProfile(int userID)
 }
 
 const char *byte_to_binary(long x)
-{    
+{
     static char b[9];
     b[0] = '\0';
 
@@ -199,7 +205,7 @@ void showTrainedActions(int userID)
 {
     unsigned long pTrainedActionsOut = 0;
     IEE_MentalCommandGetTrainedSignatureActions(userID, &pTrainedActionsOut);
-    
+
     std::cout << "Trained Actions" << " : " << byte_to_binary(pTrainedActionsOut) << "\n";
 }
 
@@ -213,7 +219,7 @@ void showCurrentActionPower(EmoStateHandle eState)
     case MC_NEUTRAL: { std::cout << "Neutral" << " : " << actionPower << "; \n"; break; }
     case MC_PUSH:    { std::cout << "Push" << " : " << actionPower << "; \n"; break; }
     case MC_PULL:    { std::cout << "Pull" << " : " << actionPower << "; \n"; break; }
-	}	
+	}
 }
 
 void setActiveActions(int userID)

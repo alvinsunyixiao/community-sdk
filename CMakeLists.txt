@@ -56,4 +56,4 @@ add_subdirectory(${COMMUNITY_SDK_CXX_EXAMPLES_PRIME_DIR}/MultilChannelEEGLogger)
 add_subdirectory(${COMMUNITY_SDK_CXX_EXAMPLES_PRIME_DIR}/PerformanceMetricsDemo)
 add_subdirectory(${COMMUNITY_SDK_CXX_EXAMPLES_BASIC_DIR}/SavingAndLoadingProfileCloud)
 
-add_subdirectory(/Users/alvin/syxface)
+add_subdirectory(${PROJECT_SOURCE_DIR}/projects/syxface)
