@@ -7,7 +7,7 @@ import ctypes
 
 if sys.platform.startswith('win32'):
     import msvcrt
-elif sys.platform.startswith('linux'):
+elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
     import atexit
     from select import select
 
@@ -215,7 +215,7 @@ def logEmoState(userID, eState):
 
     # Performance metrics Suite results
     print >>f, IS_PerformanceMetricGetExcitementLongTermScore(eState), ",",
-    print >>f, IS_PerformanceMetricGetInstantaneousExcitementScore(eState), ",",    
+    print >>f, IS_PerformanceMetricGetInstantaneousExcitementScore(eState), ",",
     #IS_PerformanceMetricGetInstantaneousExcitementModelParams(eState, Raw, Min, Max)
     print >>f, RawScore.value, ",",
     print >>f, MinScale.value, ",",
@@ -246,12 +246,12 @@ def logEmoState(userID, eState):
     print >>f, MinScale.value, ",",
     print >>f, MaxScale.value, ",",
     print >>f, '\n',
-    
+
 def kbhit():
     ''' Returns True if keyboard character was hit, False otherwise.
     '''
     if sys.platform.startswith('win32'):
-        return msvcrt.kbhit()   
+        return msvcrt.kbhit()
     else:
         dr,dw,de = select([sys.stdin], [], [], 0)
         return dr != []
@@ -265,7 +265,7 @@ state  = c_int(0)
 composerPort = c_uint(1726)
 timestamp    = c_float(0.0)
 
-FE_SUPPRISE = 0x0020 
+FE_SUPPRISE = 0x0020
 FE_FROWN    = 0x0040
 FE_SMILE    = 0x0080
 FE_CLENCH   = 0x0100
@@ -281,7 +281,7 @@ PM_FOCUS      = 0x0020
 # -------------------------------------------------------------------------
 header = ['Time', 'UserID', 'Wireless Signal Status', 'Blink', 'Wink Left', 'Wink Right',
           'Surprise', 'Furrow', 'Smile', 'Clench',
-          'EyeLocationHoriz', 'EyeLocationVert','EyelidStateLeft', 'EyelidStateRight', 'LongTermExcitementRawNorm', 
+          'EyeLocationHoriz', 'EyeLocationVert','EyelidStateLeft', 'EyelidStateRight', 'LongTermExcitementRawNorm',
           'ShortTermExcitementRawNorm','ShortTermExcitementRaw', 'ShortTermExcitementMin', 'ShortTermExcitementMax',
           'RelaxationRawNorm','RelaxationRaw','RelaxationMin','RelaxationMax',
           'StressRawNorm','StressRaw','StressMin','StressMax', 'EngagementRawNorm','EngagementRaw', 'EngagementMin','EngagementMax',
@@ -316,10 +316,10 @@ f = open('ES.csv', 'w')
 print >> f, header
 
 while (1):
-    
+
     if kbhit():
         break
-    
+
     state = libEDK.IEE_EngineGetNextEvent(eEvent)
     if state == 0:
         eventType = libEDK.IEE_EmoEngineEventGetType(eEvent)
