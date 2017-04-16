@@ -34,31 +34,31 @@
 	
 2. Open up your **Windows command prompt** (abbreviated as **cmd**), and change your current directory to your `community-sdk` folder
 
-	![Command Prompt](./cmd.png)
+	![Command Prompt](.img/cmd.png)
 
 3. Run the following command to generate project files:
 
 	```
 	mkdir build && cd build && cmake ..
 	```
-	![Build Command](./build.png)
+	![Build Command](.img/build.png)
 
 4. Open the `ALL_BUILD` file inside your `community-sdk/build/` folder with [**Visual Studio**](https://www.visualstudio.com/zh-hans/vs/community/)
 
-	![ALL_BUILD File](./all_build.png)
+	![ALL_BUILD File](.img/all_build.png)
 
 5. You will see a list of projects on the right 
 
-	![Project List](./project_list.png)
+	![Project List](.img/project_list.png)
 
 6. You can either:
 	* Edit the source code for each of the project
 
-		![Source Code](./source_code.png)
+		![Source Code](.img/source_code.png)
 		
 	* Run a specific project by doing the following
 
-		![Run Project](./project.png) 
+		![Run Project](.img/project.png) 
 
 ## <div id="macos">Mac OS</div>
 
@@ -114,7 +114,7 @@
 	
 6. Run a project
 
-	1. Get into the `Programs` directory
+	1. Get into the `Programs/` directory
 
 		```
 		cd Programs
@@ -124,7 +124,7 @@
 		```
 		ls
 		```
-		![Mac Executables](./mac-exec.png)
+		![Mac Executables](.img/mac-exec.png)
 	
 	3. Run one of them by typing `./[project_name]` (e.g. `./AverageBandPowers`)
 
